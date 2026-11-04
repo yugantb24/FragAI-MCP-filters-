@@ -1,0 +1,43 @@
+[project]
+name = "pii-filter-mcp"
+version = "0.1.0"
+description = "Obot-compatible MCP filters for PII, prompt injection, and jailbreaks"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "mcp>=1.28.1,<2",
+    "pydantic>=2,<3",
+]
+
+[project.optional-dependencies]
+pii = [
+    "en-core-web-lg",
+    "presidio-analyzer>=2.2.360",
+]
+prompt-injection = [
+    "yara-python>=4.5,<5",
+]
+jailbreak = [
+    "huggingface-hub>=0.28,<2",
+    "numpy>=1.26,<3",
+    "onnxruntime>=1.20,<2",
+    "tokenizers>=0.21,<1",
+]
+
+[project.scripts]
+pii-filter-mcp = "pii_server:main"
+prompt-injection-filter-mcp = "promptinjection_server:main"
+jailbreak-filter-mcp = "jailbreak_server:main"
+
+[tool.uv.sources]
+en-core-web-lg = { url = "https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl" }
+
+[tool.uv]
+package = true
+
+[build-system]
+requires = ["setuptools>=83.0.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["main", "mcp_common", "pii_server", "promptinjection_server", "jailbreak_server", "filters", "guardrail_utils", "promptinjection", "jailbreak"]
